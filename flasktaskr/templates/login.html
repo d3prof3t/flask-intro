@@ -1,0 +1,16 @@
+{% extends "_base.html" %}
+{% block content %}
+
+<h3>Please Login to access your task list.</h3>
+<form method="post" action="{{ url_for('users.login') }}">
+  {{ form.csrf_token }}
+  <span>Username: <input type="text" name="name" value="{{ request.form.name }}"></input></span>
+  <span>Password: <input type="password" name="password" value="{{ request.form.password }}"></input></span>
+  <input type="submit" name="Login" value="Login"></input>
+</form>
+
+<br>
+
+<p><em>Need an account?</em><a href="{{ url_for('users.register') }}"> Signup!!</a></p>
+
+{% endblock %}
