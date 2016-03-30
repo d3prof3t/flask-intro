@@ -21,9 +21,9 @@ from flasktaskr import db
 from flasktaskr.models import Task
 
 
-##############
-### config ###
-##############
+#########################
+### Blueprints config ###
+#########################
 
 tasks_blueprint = Blueprint('tasks', __name__)
 tasks = Api(tasks_blueprint)
@@ -88,7 +88,6 @@ class Tasks(Resource):
             all_tasks.append(open_tasks)
             all_tasks.append(closed_tasks)
             return all_tasks
-            
 
 
     @marshal_with(resource_fields)
@@ -118,11 +117,13 @@ class Tasks(Resource):
             datetime.datetime.now(),
             datetime.datetime.now()
         )
+
         # insert the new task
         db.session.add(task)
+
         # commit the changes
         db.session.commit()
-        # respond to the client
+
         return task
 
 
@@ -184,6 +185,5 @@ class Tasks(Resource):
         return task
 
 
-# Bind the resource to a route
+# bind the resource to a route
 tasks.add_resource(Tasks, '/tasks', )
-
