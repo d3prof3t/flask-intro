@@ -9,11 +9,10 @@ import datetime
 from functools import wraps
 
 # Flask Imports
-from flask import flash, redirect, url_for, session, request, \
-        render_template, Blueprint
+from flask import Blueprint
 
 # Flask Third party imports
-from flask_restful import Resource, Api, reqparse, fields, marshal, marshal_with
+from flask_restful import Resource, Api, reqparse, fields, marshal
 
 # App Specific Imports
 from flasktaskr import db
