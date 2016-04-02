@@ -16,7 +16,6 @@ from flask_restful import Resource, Api, reqparse, fields, marshal
 
 # App Specific Imports
 from flasktaskr import db
-# from .forms import AddTaskForm
 from flasktaskr.models import Task
 
 
@@ -79,20 +78,18 @@ class Tasks(Resource):
             }
         
         else:
-            # get a single task
-            task = Task.query.get(task_id)
-            
-            if not task:
-                return {
-                    'success': 'false',
-                    'message': 'Task does not exists for task id => {}'. \
-                            format(task_id)
-                }
+            try:
 
-            else:
+                # get a single task
+                task = Task.query.get_or_404(task_id)
                 return {
                     'success': 'true',
                     'data': marshal(task, resource_fields)
+                }
+            except Exception as e:
+                return {
+                    'success': 'false',
+                    'message': '{}'.format(e)
                 }
 
 
@@ -159,8 +156,7 @@ class Tasks(Resource):
         try:
 
             # get the appropriate task
-            task = db.session.query(Task).filter_by(task_id=args['task_id']). \
-                    first()
+            task = Task.query.get_or_404(args['task_id'])
         
             # set the task staus as closed
             task.status = 2
@@ -202,8 +198,7 @@ class Tasks(Resource):
         try:
 
             # get the appropriate task
-            task = db.session.query(Task).filter_by(task_id=args['task_id']). \
-                    first()
+            task = Task.query.get_or_404(args['task_id'])
         
             # delete the row from db
             db.session.delete(task)
