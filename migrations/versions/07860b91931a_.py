@@ -1,13 +1,13 @@
 """empty message
 
-Revision ID: 182515cbd744
+Revision ID: 07860b91931a
 Revises: None
-Create Date: 2016-03-26 20:25:40.966812
+Create Date: 2016-04-09 14:54:45.615336
 
 """
 
 # revision identifiers, used by Alembic.
-revision = '182515cbd744'
+revision = '07860b91931a'
 down_revision = None
 
 from alembic import op
@@ -21,23 +21,25 @@ def upgrade():
     sa.Column('name', sa.String(), nullable=False),
     sa.Column('email', sa.String(), nullable=False),
     sa.Column('password', sa.String(), nullable=False),
-    sa.Column('date_added', sa.DateTime(), nullable=True),
-    sa.Column('date_modified', sa.DateTime(), nullable=True),
+    sa.Column('is_active', sa.Integer(), nullable=True),
+    sa.Column('is_admin', sa.Integer(), nullable=True),
+    sa.Column('date_added', sa.DateTime(timezone=True), nullable=True),
+    sa.Column('date_modified', sa.DateTime(timezone=True), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('name')
     )
     op.create_table('tasks',
-    sa.Column('task_id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.String(length=50), nullable=False),
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('name', sa.String(), nullable=False),
     sa.Column('due_date', sa.Date(), nullable=False),
     sa.Column('priority', sa.Integer(), nullable=False),
     sa.Column('status', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
-    sa.Column('date_added', sa.DateTime(), nullable=True),
-    sa.Column('date_modified', sa.DateTime(), nullable=True),
+    sa.Column('date_added', sa.DateTime(timezone=True), nullable=True),
+    sa.Column('date_modified', sa.DateTime(timezone=True), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('task_id')
+    sa.PrimaryKeyConstraint('id')
     )
     ### end Alembic commands ###
 
