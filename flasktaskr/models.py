@@ -30,12 +30,10 @@ class User(db.Model):
     date_modified = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now())
 
     def __init__(self, name=None, email=None, password=None):
-        self.id = id
         self.name = name
-        self.email = email
 
 
-    def generate_auth_token(self, expiration=1):
+    def generate_auth_token(self, expiration=14400):
         s = Serializer(app.config['SECRET_KEY'], expires_in=expiration)
         return s.dumps({'id': self.id})
 
@@ -50,11 +48,12 @@ class User(db.Model):
         except BadSignature:
             return None # invalid token
         user = User.query.get(data['id'])
+        user.id = data['id']
         return user
 
 
     def __repr__(self):
-        return '<username: {}>'.format(self.name)
+        return '<id: {}>, <username: {}>'.format(self.id, self.name)
 
 
 class Task(db.Model):
@@ -74,7 +73,6 @@ class Task(db.Model):
     date_modified = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now())
 
     def __init__(self, name, due_date, priority, status, user_id, date_added, date_modified):
-        self.id = id
         self.name = name
         self.due_date = due_date
         self.priority = priority
