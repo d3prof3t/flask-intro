@@ -47,11 +47,11 @@ class Users(Resource):
         parser = reqparse.RequestParser()
 
         # payload data sanity check
-        parser.add_argument('name', type='str', location='form', \
+        parser.add_argument('name', location='form', required=True, \
                 help='Name is a required field.')
-        parser.add_argument('email', type='str', required=True, \
+        parser.add_argument('email', required=True, \
                 location='form', help='Email is required field.')
-        parser.add_argument('password', type='str', required=True, \
+        parser.add_argument('password', required=True, \
                 location='form', help='Password is a required field.')
 
         # create the args object
@@ -78,6 +78,7 @@ class Users(Resource):
                     'success': 'true',
                     'data': marshal(user, user_post_resource_fields)
                 }, 201
+
             except IntegrityError:
                 return {
                     'success': 'false',

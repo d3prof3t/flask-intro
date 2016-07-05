@@ -29,10 +29,6 @@ class User(db.Model):
     date_added = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now())
     date_modified = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now())
 
-    def __init__(self, name=None, email=None, password=None):
-        self.name = name
-
-
     def generate_auth_token(self, expiration=14400):
         s = Serializer(app.config['SECRET_KEY'], expires_in=expiration)
         return s.dumps({'id': self.id})
@@ -71,12 +67,6 @@ class Task(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     date_added = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now())
     date_modified = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now())
-
-    def __init__(self, name, due_date, priority, status, user_id, date_added, date_modified):
-        self.name = name
-        self.due_date = due_date
-        self.priority = priority
-        self.status = status
 
     def __repr__(self):
         return '<name: {}>'.format(self.name)

@@ -127,7 +127,6 @@ class Tasks(Resource):
 
     @validate_token
     def post(self):
-        return g.user.id
 
         # instantiate reqparse object
         parser = reqparse.RequestParser()
@@ -147,13 +146,13 @@ class Tasks(Resource):
         try:
             # create new task object to be inserted
             task = Task(
-                args['name'],
-                args['due_date'],
-                int(args['priority']),
-                1,
-                g.user.id,
-                datetime.datetime.now(),
-                datetime.datetime.now()
+                name=args['name'],
+                due_date=args['due_date'],
+                priority=int(args['priority']),
+                status=1,
+                user_id=User.poster,
+                date_added=datetime.datetime.now(),
+                date_modified=datetime.datetime.now()
             )
 
             # insert the new task
