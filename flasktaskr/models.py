@@ -29,6 +29,11 @@ class User(db.Model):
     date_added = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now())
     date_modified = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now())
 
+    def __init__(self, name, email, password):
+        self.name = name
+        self.email = email
+        self.password = password
+
     def generate_auth_token(self, expiration=14400):
         s = Serializer(app.config['SECRET_KEY'], expires_in=expiration)
         return s.dumps({'id': self.id})
